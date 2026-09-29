@@ -12,7 +12,7 @@ ALLOWED_ORIGIN = "*"
 [[d1_databases]]
 binding = "DB"
 database_name = "elan-demenagement-db"
-database_id = "COLLE_ICI_TON_DATABASE_ID"
+database_id = "9357bfed-9734-4bca-ac1a-718c65bbfe8d"
 
 # Secrets à définir avec `wrangler secret put <NOM>` (jamais dans ce fichier) :
 #   ADMIN_PASSWORD      -> le code d'accès de l'espace pro
