@@ -1,0 +1,20 @@
+name = "elan-demenagement-api"
+main = "src/worker.js"
+compatibility_date = "2024-11-01"
+
+# Autorise l'appel de l'API depuis le domaine du site public.
+# Remplace par ton vrai domaine une fois le site en ligne (ex: "https://elan-demenagement-demo.fr")
+[vars]
+ALLOWED_ORIGIN = "*"
+
+# Base D1 : crée-la avec `wrangler d1 create elan-demenagement-db`
+# puis colle le "database_id" retourné ci-dessous.
+[[d1_databases]]
+binding = "DB"
+database_name = "elan-demenagement-db"
+database_id = "COLLE_ICI_TON_DATABASE_ID"
+
+# Secrets à définir avec `wrangler secret put <NOM>` (jamais dans ce fichier) :
+#   ADMIN_PASSWORD      -> le code d'accès de l'espace pro
+#   ADMIN_TOKEN_SECRET   -> une longue chaîne aléatoire, sert à signer les sessions admin
+#   RESEND_API_KEY       -> ta clé API Resend (resend.com), pour l'envoi d'emails
