@@ -915,7 +915,7 @@ counters.forEach(c=>countIo.observe(c));
 /* ══════════════ CONFIG TARIFAIRE (pilotée depuis l'espace pro, via l'API) ══════════════ */
 // ⚠️ À modifier après le déploiement du Worker : mets ici l'URL donnée par `wrangler deploy`
 // (ou ton domaine personnalisé, ex: 'https://api.elan-demenagement-demo.fr')
-const API_BASE = 'https://elan-demenagement-api.TON-SOUS-DOMAINE.workers.dev';
+const API_BASE = 'https://demenagementbaby.contact-byemreh.workers.dev';
 
 const DEFAULT_CONFIG={
   mode:'transparent',
@@ -957,7 +957,7 @@ loadConfig();
 /* ══════════════ RÉSERVATION (Cal.com) ══════════════ */
 // ⚠️ Remplace "TON-COMPTE-CALCOM" par ton nom d'utilisateur Cal.com une fois le compte créé,
 // et crée 2 types d'événements sur cal.com : "appel-conseil" et "creneau-demenagement".
-const CAL_USERNAME = "TON-COMPTE-CALCOM";
+const CAL_USERNAME = "byemreh";
 
 (function (C, A, L) {
   let p = function (a, ar) { a.q.push(ar); };
@@ -983,10 +983,10 @@ function openBookingModal(){
   document.getElementById('bookingOverlay').classList.add('open');
   if(!calAppelInited){
     calAppelInited=true;
-    Cal("init", "appel-conseil", {origin:"https://cal.com"});
-    Cal.ns["appel-conseil"]("inline", {
-      elementOrSelector:"#cal-appel-conseil",
-      calLink: CAL_USERNAME+"/appel-conseil",
+    Cal("init", "appel-conseil1", {origin:"https://cal.com"});
+    Cal.ns["appel-conseil1"]("inline", {
+      elementOrSelector:"#cal-appel-conseil1",
+      calLink: CAL_USERNAME+"/appel-conseil1",
       layout:"month_view"
     });
   }
