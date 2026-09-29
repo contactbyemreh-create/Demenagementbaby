@@ -1,4 +1,4 @@
-name = "elan-demenagement-api"
+name = "demenagementbaby"
 main = "src/worker.js"
 compatibility_date = "2024-11-01"
 
