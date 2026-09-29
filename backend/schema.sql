@@ -1,10 +1,7 @@
--- Schéma de la base D1 pour Élan Déménagement
--- À exécuter une fois avec : wrangler d1 execute elan-demenagement-db --file=./schema.sql
-
 DROP TABLE IF EXISTS config;
 CREATE TABLE config (
   id INTEGER PRIMARY KEY CHECK (id = 1),
-  mode TEXT NOT NULL DEFAULT 'transparent',              -- 'transparent' ou 'masque'
+  mode TEXT NOT NULL DEFAULT 'transparent',
   price_per_m3 REAL NOT NULL DEFAULT 28,
   price_per_km REAL NOT NULL DEFAULT 1.3,
   floor_rate_per_m3 REAL NOT NULL DEFAULT 1.4,
@@ -15,8 +12,8 @@ CREATE TABLE config (
   opt_montemeuble REAL NOT NULL DEFAULT 150,
   opt_garde REAL NOT NULL DEFAULT 220,
   opt_nettoyage REAL NOT NULL DEFAULT 130,
-  pro_email TEXT NOT NULL DEFAULT 'contact@elan-demenagement-demo.fr',
-  from_email TEXT NOT NULL DEFAULT 'devis@elan-demenagement-demo.fr',
+  pro_email TEXT NOT NULL DEFAULT 'contact.byemreh@gmail.com',
+  from_email TEXT NOT NULL DEFAULT 'onboarding@resend.dev',
   from_name TEXT NOT NULL DEFAULT 'Élan Déménagement'
 );
 INSERT INTO config (id) VALUES (1);
@@ -35,7 +32,7 @@ CREATE TABLE quotes (
   depart_lift INTEGER,
   arrivee_floor INTEGER,
   arrivee_lift INTEGER,
-  options TEXT,        -- JSON array, ex: ["emballage","demontage"]
+  options TEXT,
   price_low REAL,
   price_high REAL,
   nom TEXT,
