@@ -7,6 +7,7 @@
  *   GET    /api/admin/quotes        -> (protégé) liste des demandes
  *   GET    /api/admin/config        -> (protégé) config complète (avec pro_email / from_email)
  *   POST   /api/admin/config        -> (protégé) met à jour la config tarifaire
+ *   GET    /api/test-email          -> TEMPORAIRE : teste l'envoi Resend (à supprimer)
  */
 
 function corsHeaders(env) {
@@ -88,11 +89,14 @@ async function sendEmail(env, { to, subject, html }) {
   if (!env.RESEND_API_KEY) { console.log("RESEND_API_KEY manquante, email non envoyé:", subject); return; }
   try {
     const cfg = await getConfig(env);
-    await fetch("https://api.resend.com/emails", {
+    const from = `${cfg.from_name || "Élan Déménagement"} <${cfg.from_email || "onboarding@resend.dev"}>`;
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: `${cfg.from_name} <${cfg.from_email}>`, to: [to], subject, html }),
+      body: JSON.stringify({ from, to: [to], subject, html }),
     });
+    const body = await res.text();
+    console.log(res.ok ? "Resend OK:" : "Resend REFUSÉ:", res.status, body);
   } catch (e) {
     console.log("Erreur envoi email:", e.message);
   }
@@ -217,6 +221,28 @@ export default {
           ).run();
           return json({ ok: true }, 200, env);
         }
+      }
+
+      /* ── TEST TEMPORAIRE : à supprimer après ── */
+      if (pathname === "/api/test-email") {
+        const cfg = await getConfig(env);
+        const res = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${env.RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: `${cfg.from_name} <${cfg.from_email}>`,
+            to: [cfg.pro_email],
+            subject: "Test Resend",
+            html: "<p>Ça marche</p>",
+          }),
+        });
+        return new Response(
+          `clé présente: ${!!env.RESEND_API_KEY}\nfrom: ${cfg.from_email}\nto: ${cfg.pro_email}\nstatut: ${res.status}\nréponse: ${await res.text()}`,
+          { headers: { "Content-Type": "text/plain; charset=utf-8" } }
+        );
       }
 
       return json({ ok: false, error: "Not found" }, 404, env);
